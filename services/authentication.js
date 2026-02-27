@@ -1,6 +1,6 @@
 const JWT=require('jsonwebtoken');
 
-const secret="BloggingApp";
+const secret=process.env.JWI_SECRET;
 
 function createUserToken(user){
     const payload={
