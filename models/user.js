@@ -35,16 +35,15 @@ const userSchema=new Schema({
 // so when user tries to save the new user below function is executed first and hashes the password;
 
 userSchema.pre('save',function (next){
-    const user=this;
-    if(!user.isModified('password')) return ;
+    if(!this.isModified('password')) return ;
 
     const salt=randomBytes(16).toString(); // random string , it is like a secret key
     const hashedPassword=createHmac('sha256',salt) // here salt is key and 'sha256' is an algorithm , and generates hashpassword with salt
-    .update(user.password) // this is to update user password
+    .update(this.password) // this is to update user password
     .digest('hex');
 
     this.salt=salt;
-    this.password=hashedPassword; // this is replace the original password
+    this.password=hashedPassword; // this replaces the original password
     next();
 });
 
